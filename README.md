@@ -1,6 +1,6 @@
-# ArQmA Onion Blockchain Explorer
+# Lakran Onion Blockchain Explorer
 
-Currently available Arqma blockchain explorers have several limitations which are of
+Currently available Lakran blockchain explorers have several limitations which are of
 special importance to privacy-oriented users:
 
  - they use JavaScript,
@@ -8,13 +8,13 @@ special importance to privacy-oriented users:
  - track users activates through google analytics,
  - are closed sourced,
  - are not available as hidden services,
- - do not support Arqma testnet nor stagenet networks,
+ - do not support Lakran testnet nor stagenet networks,
  - have limited JSON API.
 
 
 In this example, these limitations are addressed by development of
-an ArQmA Onion Blockchain Explorer. The example not only shows how to use
-ArQmA C++ libraries, but also demonstrates how to use:
+an Lakran Onion Blockchain Explorer. The example not only shows how to use
+Lakran C++ libraries, but also demonstrates how to use:
 
  - [crow](https://github.com/ipkn/crow) - C++ micro web framework
  - [mstch](https://github.com/no1msd/mstch) - C++ {{mustache}} templates
@@ -22,9 +22,9 @@ ArQmA C++ libraries, but also demonstrates how to use:
  - [fmt](https://github.com/fmtlib/fmt) - Small, safe and fast string formatting library
 
 
-## ArQmA Onion Blockchain Explorer features
+## Lakran Onion Blockchain Explorer features
 
-The key features of the ArQmA Onion Blockchain Explorer are:
+The key features of the Lakran Onion Blockchain Explorer are:
 
  - no cookies, no web analytics trackers, no images,
  - by default no JavaScript, but can be enabled for client side decoding and proving transactions,
@@ -33,12 +33,12 @@ The key features of the ArQmA Onion Blockchain Explorer are:
  - showing encrypted payments ID,
  - showing ring signatures,
  - showing transaction extra field,
- - showing public components of ArQmA addresses,
- - decoding which outputs and mixins belong to the given ArQmA address and viewkey,
- - can prove that you send ArQmA to someone,
+ - showing public components of Lakran addresses,
+ - decoding which outputs and mixins belong to the given Lakran address and viewkey,
+ - can prove that you send Lakran to someone,
  - detailed information about ring members, such as, their age, timescale and their ring sizes,
  - showing number of amount output indices,
- - support ArQmA testnet and stagnet networks,
+ - support Lakran testnet and stagnet networks,
  - tx checker and pusher for online pushing of transactions,
  - estimate possible spendings based on address and viewkey,
  - can provide total amount of all miner fees,
@@ -49,12 +49,12 @@ The key features of the ArQmA Onion Blockchain Explorer are:
 
 ## Compilation on Ubuntu 16.04/18.04
 
-##### Compile latest ArQmA development version
+##### Compile latest Lakran development version
 
-Download and compile recent ArQmA into your home folder:
+Download and compile recent Lakran into your home folder:
 
 ```bash
-# first install ArQmA dependecines
+# first install Lakran dependecines
 sudo apt update
 
 sudo apt install git build-essential cmake pkg-config libboost-all-dev libssl-dev libzmq3-dev libunbound-dev libsodium-dev libunwind8-dev liblzma-dev libreadline6-dev libldns-dev libexpat1-dev doxygen graphviz libpgm-dev libudev-dev libusb-1.0-0-dev libhidapi-dev
@@ -62,9 +62,9 @@ sudo apt install git build-essential cmake pkg-config libboost-all-dev libssl-de
 # go to home folder
 cd ~
 
-git clone --recursive https://github.com/arqma/arqma
+git clone --recursive https://github.com/lakrancoin/lakran
 
-cd arqma/
+cd lakran/
 
 
 USE_SINGLE_BUILDDIR=1 make
@@ -72,15 +72,15 @@ USE_SINGLE_BUILDDIR=1 make
 
 ##### Compile and run the explorer
 
-Once the ArQmA is compiles, the explorer can be downloaded and compiled
+Once the Lakran is compiles, the explorer can be downloaded and compiled
 as follows:
 
 ```bash
-# go to home folder if still in ~/arqma
+# go to home folder if still in ~/lakran
 cd ~
 
 # download the source code
-git clone https://github.com/arqma/blockchain-explorer.git
+git clone https://github.com/lakrancoin/onion-lakran-blockchain-explorer.git blockchain-explorer
 
 # enter the downloaded sourced code folder
 cd blockchain-explorer
@@ -92,7 +92,7 @@ mkdir build && cd build
 cmake ..
 
 # altearnatively can use: cmake -DARQMA_DIR=/path/to/arqma_folder ..
-# if arqma is not in ~/arqma
+# if lakran is not in ~/lakran
 #
 # also can build with ASAN (sanitizers), for example
 # cmake -DSANITIZE_ADDRESS=On ..
@@ -104,22 +104,22 @@ make
 
 To run it:
 ```
-./arqblocks
+./lakblocks
 ```
 
-By default it will look for blockchain in its default location i.e., `~/.arqma/lmdb`.
+By default it will look for blockchain in its default location i.e., `~/.lakran/lmdb`.
 You can use `-b` option if its in different location.
 
 For example:
 
 ```bash
-./arqblocks -b /home/arqma/non-defult-arqma-location/lmdb/
+./lakblocks -b /home/lakran/non-defult-lakran-location/lmdb/
 ```
 
 Example output:
 
 ```bash
-[arqma@us blockchain-explorer]$ ./arqblocks
+[arqma@us blockchain-explorer]$ ./lakblocks
 2016-May-28 10:04:49.160280 Blockchain initialized. last block: 1056761, d0.h0.m12.s47 time ago, current difficulty: 1517857750
 (2016-05-28 02:04:49) [INFO    ] Crow/0.1 server is running, local port 8081
 ```
