@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-#include "monero_headers.h"
+#include "arqma_headers.h"
 #include "tools.h"
 
 namespace xmreg
@@ -49,6 +49,9 @@ namespace xmreg
 
         bool
         get_block_by_height(const uint64_t& height, block& blk);
+
+        bool
+        get_diff_at_height(const uint64_t& height, uint64_t& blk);
 
         bool
         get_tx(const crypto::hash& tx_hash, transaction& tx);

@@ -2,8 +2,8 @@
 // Created by mwo on 28/05/17.
 //
 
-#ifndef XMRBLOCKS_MEMPOOLSTATUS_H
-#define XMRBLOCKS_MEMPOOLSTATUS_H
+#ifndef ARQBLOCKS_MEMPOOLSTATUS_H
+#define ARQBLOCKS_MEMPOOLSTATUS_H
 
 
 #include "MicroCore.h"
@@ -38,11 +38,9 @@ struct MempoolStatus
         uint64_t mixin_no {0};
 
         string fee_str;
-        string fee_micro_str;
         string payed_for_kB_str;
-        string payed_for_kB_micro_str;
-        string xmr_inputs_str;
-        string xmr_outputs_str;
+        string arq_inputs_str;
+        string arq_outputs_str;
         string timestamp_str;
         string txsize;
 
@@ -74,7 +72,6 @@ struct MempoolStatus
         uint64_t cumulative_difficulty  {0};
         uint64_t block_size_limit  {0};
         uint64_t block_size_median  {0};
-        uint64_t block_weight_limit {0};
         char block_size_limit_str[10];   // needs to be trivially copyable
         char block_size_median_str[10];  // std::string is not trivially copyable
         uint64_t start_time  {0};
@@ -164,4 +161,4 @@ struct MempoolStatus
 };
 
 }
-#endif //XMRBLOCKS_MEMPOOLSTATUS_H
+#endif //ARQBLOCKS_MEMPOOLSTATUS_H
