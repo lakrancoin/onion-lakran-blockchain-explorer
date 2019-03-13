@@ -335,7 +335,7 @@ MempoolStatus::is_thread_running()
 }
 
 bf::path MempoolStatus::blockchain_path {"/home/arqma/.arqma/lmdb"};
-string MempoolStatus::deamon_url {"http://127.0.0.1:19994"};
+string MempoolStatus::deamon_url {"http://127.0.0.1:14081"};
 cryptonote::network_type MempoolStatus::nettype {cryptonote::network_type::MAINNET};
 atomic<bool>       MempoolStatus::is_running {false};
 boost::thread      MempoolStatus::m_thread;
