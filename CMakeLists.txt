@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5.0)
 
 set(PROJECT_NAME
-        arqblocks)
+        lakblocks)
 
 
 project(${PROJECT_NAME})
@@ -15,30 +15,30 @@ if (WIN32)
 endif()
 
 
-if (NOT ARQMA_DIR)
-    set(ARQMA_DIR ~/arqma)
+if (NOT LAKRAN_DIR)
+    set(LAKRAN_DIR ~/lakran)
 endif()
 
-message(STATUS ARQMA_DIR ": ${ARQMA_DIR}")
+message(STATUS LAKRAN_DIR ": ${LAKRAN_DIR}")
 
-set(ARQMA_SOURCE_DIR ${ARQMA_DIR}
-        CACHE PATH "Path to the root directory for Arqma")
+set(LAKRAN_SOURCE_DIR ${LAKRAN_DIR}
+        CACHE PATH "Path to the root directory for Lakran")
 
-# set location of arqma build tree
-set(ARQMA_BUILD_DIR ${ARQMA_SOURCE_DIR}/build/Linux/release-v0.2.2/release
-        CACHE PATH "Path to the build directory for Arqma")
+# set location of Lakran build tree
+set(LAKRAN_BUILD_DIR ${LAKRAN_SOURCE_DIR}/build/Linux/release-v0.2.2/release
+        CACHE PATH "Path to the build directory for Lakran")
 
 set(MY_CMAKE_DIR "${CMAKE_CURRENT_LIST_DIR}/cmake"
         CACHE PATH "The path to the cmake directory of the current project")
 
 list(APPEND CMAKE_MODULE_PATH "${MY_CMAKE_DIR}")
 
-set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "${ARQMA_BUILD_DIR}"
-        CACHE PATH "Add Arqma directory for library searching")
+set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "${LAKRAN_BUILD_DIR}"
+        CACHE PATH "Add Lakran directory for library searching")
 
 include(MyUtils)
 
-find_package(Arqma)
+find_package(Lakran)
 
 # find boost
 find_package(Boost COMPONENTS
@@ -64,14 +64,14 @@ endif()
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" OR WIN32)
     add_library(unbound STATIC IMPORTED)
-    set_property(TARGET unbound PROPERTY IMPORTED_LOCATION ${ARQMA_BUILD_DIR}/external/unbound/libunbound.a)
+    set_property(TARGET unbound PROPERTY IMPORTED_LOCATION ${LAKRAN_BUILD_DIR}/external/unbound/libunbound.a)
 endif()
 
 # include boost headers
 include_directories(${Boost_INCLUDE_DIRS})
 
-# include arqma
-include_directories(${ARQMA_SOURCE_DIR}/build/Linux/release-v0.2.2/release)
+# include lakran
+include_directories(${LAKRAN_SOURCE_DIR}/build/Linux/release-v0.2.2/release)
 
 include_directories("ext/mstch/include")
 include_directories("ext/mstch/include/src")
