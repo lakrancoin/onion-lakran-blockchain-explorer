@@ -9,7 +9,7 @@
 
 #include "mstch/mstch.hpp"
 
-#include "arqma_headers.h"
+#include "lakran_headers.h"
 
 #include "../gen/version.h"
 
@@ -207,8 +207,8 @@ struct tx_details
     crypto::hash prefix_hash;
     crypto::public_key pk;
     std::vector<crypto::public_key> additional_pks;
-    uint64_t arq_inputs;
-    uint64_t arq_outputs;
+    uint64_t lak_inputs;
+    uint64_t lak_outputs;
     uint64_t num_nonrct_inputs;
     uint64_t fee;
     uint64_t mixin_no;
@@ -248,7 +248,7 @@ struct tx_details
         string fee_short_str {"N/A"};
         string payed_for_kB_str {""};
 
-        const double& arq_amount = ARQ_AMOUNT(fee);
+        const double& lak_amount = LAK_AMOUNT(fee);
 
         // tx size in kB
         double tx_size =  static_cast<double>(size)/1024.0;
@@ -256,11 +256,11 @@ struct tx_details
 
         if (!input_key_imgs.empty())
         {
-            double payed_for_kB = arq_amount / tx_size;
+            double payed_for_kB = lak_amount / tx_size;
 
             mixin_str        = std::to_string(mixin_no);
-            fee_str          = fmt::format("{:0.9f}", arq_amount);
-            fee_short_str    = fmt::format("{:0.9f}", arq_amount);
+            fee_str          = fmt::format("{:0.9f}", lak_amount);
+            fee_short_str    = fmt::format("{:0.9f}", lak_amount);
             payed_for_kB_str = fmt::format("{:0.4f}", payed_for_kB);
         }
 
@@ -272,10 +272,10 @@ struct tx_details
                 {"tx_fee"            , fee_str},
                 {"tx_fee_short"      , fee_short_str},
                 {"payed_for_kB"      , payed_for_kB_str},
-                {"sum_inputs"        , arq_amount_to_str(arq_inputs , "{:0.9f}")},
-                {"sum_outputs"       , arq_amount_to_str(arq_outputs, "{:0.9f}")},
-                {"sum_inputs_short"  , arq_amount_to_str(arq_inputs , "{:0.9f}")},
-                {"sum_outputs_short" , arq_amount_to_str(arq_outputs, "{:0.9f}")},
+                {"sum_inputs"        , lak_amount_to_str(lak_inputs , "{:0.9f}")},
+                {"sum_outputs"       , lak_amount_to_str(lak_outputs, "{:0.9f}")},
+                {"sum_inputs_short"  , lak_amount_to_str(lak_inputs , "{:0.9f}")},
+                {"sum_outputs_short" , lak_amount_to_str(lak_outputs, "{:0.9f}")},
                 {"no_inputs"         , static_cast<uint64_t>(input_key_imgs.size())},
                 {"no_outputs"        , static_cast<uint64_t>(output_pub_keys.size())},
                 {"no_nonrct_inputs"  , num_nonrct_inputs},
@@ -998,8 +998,8 @@ index2(uint64_t page_no = 0, bool refresh_page = false)
                 = CurrentBlockchainStatus::get_emission();
 
         string emission_blk_no   = std::to_string(current_values.blk_no - 1);
-        string emission_coinbase = arq_amount_to_str(current_values.coinbase, "{:0.9f}");
-        string emission_fee      = arq_amount_to_str(current_values.fee, "{:0.9f}");
+        string emission_coinbase = lak_amount_to_str(current_values.coinbase, "{:0.9f}");
+        string emission_fee      = lak_amount_to_str(current_values.fee, "{:0.9f}");
 
         context["emission"] = mstch::map {
                 {"blk_no"    , emission_blk_no},
@@ -1112,8 +1112,8 @@ mempool(bool add_header_and_footer = false, uint64_t no_of_mempool_tx = 50)
                 {"hash"            , pod_to_hex(mempool_tx.tx_hash)},
                 {"fee"             , mempool_tx.fee_str},
                 {"payed_for_kB"    , mempool_tx.payed_for_kB_str},
-                {"arq_inputs"      , mempool_tx.arq_inputs_str},
-                {"arq_outputs"     , mempool_tx.arq_outputs_str},
+                {"lak_inputs"      , mempool_tx.lak_inputs_str},
+                {"lak_outputs"     , mempool_tx.lak_outputs_str},
                 {"no_inputs"       , mempool_tx.no_inputs},
                 {"no_outputs"      , mempool_tx.no_outputs},
                 {"pID"             , string {mempool_tx.pID}},
@@ -1388,11 +1388,11 @@ show_block(uint64_t _blk_height)
 
     // add total fees in the block to the context
     context["sum_fees"]
-            = xmreg::arq_amount_to_str(sum_fees, "{:0.9f}", false);
+            = xmreg::lak_amount_to_str(sum_fees, "{:0.9f}", false);
 
     // get xmr in the block reward
     context["blk_reward"]
-            = xmreg::arq_amount_to_str(txd_coinbase.arq_outputs - sum_fees, "{:0.9f}");
+            = xmreg::lak_amount_to_str(txd_coinbase.lak_outputs - sum_fees, "{:0.9f}");
 
     add_css_style(context);
 
@@ -2142,7 +2142,7 @@ show_ringmemberstx_jsonhex(string const& tx_hash_str)
 
 string
 show_my_outputs(string tx_hash_str,
-                string arq_address_str,
+                string lak_address_str,
                 string viewkey_str, /* or tx_prv_key_str when tx_prove == true */
                 string raw_tx_data,
                 string domain,
@@ -2151,7 +2151,7 @@ show_my_outputs(string tx_hash_str,
 
     // remove white characters
     boost::trim(tx_hash_str);
-    boost::trim(arq_address_str);
+    boost::trim(lak_address_str);
     boost::trim(viewkey_str);
     boost::trim(raw_tx_data);
 
@@ -2160,7 +2160,7 @@ show_my_outputs(string tx_hash_str,
         return string("tx hash not provided!");
     }
 
-    if (arq_address_str.empty())
+    if (lak_address_str.empty())
     {
         return string("Monero address not provided!");
     }
@@ -2185,10 +2185,10 @@ show_my_outputs(string tx_hash_str,
     // parse string representing given monero address
     cryptonote::address_parse_info address_info;
 
-    if (!xmreg::parse_str_address(arq_address_str,  address_info, nettype))
+    if (!xmreg::parse_str_address(lak_address_str,  address_info, nettype))
     {
-        cerr << "Cant parse string address: " << arq_address_str << endl;
-        return string("Cant parse arq address: " + arq_address_str);
+        cerr << "Cant parse string address: " << lak_address_str << endl;
+        return string("Cant parse lak address: " + lak_address_str);
     }
 
     // parse string representing given private key
@@ -2343,7 +2343,7 @@ show_my_outputs(string tx_hash_str,
     string shortcut_url = domain
                           + (tx_prove ? "/prove" : "/myoutputs")
                           + '/' + tx_hash_str
-                          + '/' + arq_address_str
+                          + '/' + lak_address_str
                           + '/' + viewkey_str;
 
 
@@ -2359,13 +2359,13 @@ show_my_outputs(string tx_hash_str,
             {"stagenet"             , stagenet},
             {"tx_hash"              , tx_hash_str},
             {"tx_prefix_hash"       , pod_to_hex(txd.prefix_hash)},
-            {"arq_address"          , arq_address_str},
+            {"lak_address"          , lak_address_str},
             {"viewkey"              , viewkey_str_partial},
             {"tx_pub_key"           , pod_to_hex(txd.pk)},
             {"blk_height"           , tx_blk_height_str},
             {"tx_size"              , fmt::format("{:0.4f}",
                                                   static_cast<double>(txd.size) / 1024.0)},
-            {"tx_fee"               , xmreg::arq_amount_to_str(txd.fee, "{:0.9f}", true)},
+            {"tx_fee"               , xmreg::lak_amount_to_str(txd.fee, "{:0.9f}", true)},
             {"blk_timestamp"        , blk_timestamp},
             {"delta_time"           , age.first},
             {"outputs_no"           , static_cast<uint64_t>(txd.output_pub_keys.size())},
@@ -2437,7 +2437,7 @@ show_my_outputs(string tx_hash_str,
 
     mstch::array outputs;
 
-    uint64_t sum_arq {0};
+    uint64_t sum_lak {0};
 
     std::vector<uint64_t> money_transfered(tx.vout.size(), 0);
 
@@ -2516,12 +2516,12 @@ show_my_outputs(string tx_hash_str,
 
         if (mine_output)
         {
-            sum_arq += outp.second;
+            sum_lak += outp.second;
         }
 
         outputs.push_back(mstch::map {
                 {"out_pub_key"           , pod_to_hex(outp.first.key)},
-                {"amount"                , xmreg::arq_amount_to_str(outp.second)},
+                {"amount"                , xmreg::lak_amount_to_str(outp.second)},
                 {"mine_output"           , mine_output},
                 {"output_idx"            , fmt::format("{:02d}", output_idx)}
         });
@@ -2543,7 +2543,7 @@ show_my_outputs(string tx_hash_str,
 
     // to hold sum of xmr in matched mixins, those that
     // perfectly match mixin public key with outputs in mixn_tx.
-    uint64_t sum_mixin_arq {0};
+    uint64_t sum_mixin_lak {0};
 
     // this is used for the final check. we assument that number of
     // parefct matches must be equal to number of inputs in a tx.
@@ -2587,7 +2587,7 @@ show_my_outputs(string tx_hash_str,
 
         inputs.push_back(mstch::map{
                 {"key_image"       , pod_to_hex(in_key.k_image)},
-                {"key_image_amount", xmreg::arq_amount_to_str(in_key.amount)},
+                {"key_image_amount", xmreg::lak_amount_to_str(in_key.amount)},
                 make_pair(string("mixins"), mstch::array{})
         });
 
@@ -2827,7 +2827,7 @@ show_my_outputs(string tx_hash_str,
                         {"out_idx"         , output_idx_in_tx},
                         {"formed_output_pk", out_pub_key_str},
                         {"out_in_match"    , output_match},
-                        {"amount"          , xmreg::arq_amount_to_str(amount)}
+                        {"amount"          , xmreg::lak_amount_to_str(amount)}
                 });
 
                 //cout << "txout_k.key == output_data.pubkey" << endl;
@@ -2854,11 +2854,11 @@ show_my_outputs(string tx_hash_str,
                         // in amounts, not only in output public keys
                         if (mixin_tx.version < 2 && amount == in_key.amount)
                         {
-                            sum_mixin_arq += amount;
+                            sum_mixin_lak += amount;
                         }
                         else if (mixin_tx.version == 2) // ringct
                         {
-                            sum_mixin_arq += amount;
+                            sum_mixin_lak += amount;
                             ringct_amount += amount;
                         }
 
@@ -2911,15 +2911,15 @@ show_my_outputs(string tx_hash_str,
 
     context.emplace("outputs", outputs);
 
-    context["found_our_outputs"] = (sum_arq > 0);
-    context["sum_arq"]           = xmreg::arq_amount_to_str(sum_arq);
+    context["found_our_outputs"] = (sum_lak > 0);
+    context["sum_lak"]           = xmreg::lak_amount_to_str(sum_lak);
 
     context.emplace("inputs", inputs);
 
     context["show_inputs"]   = show_key_images;
     context["inputs_no"]     = static_cast<uint64_t>(inputs.size());
-    context["sum_mixin_arq"] = xmreg::arq_amount_to_str(
-            sum_mixin_arq, "{:0.9f}", false);
+    context["sum_mixin_lak"] = xmreg::lak_amount_to_str(
+            sum_mixin_lak, "{:0.9f}", false);
 
 
     uint64_t possible_spending  {0};
@@ -2944,14 +2944,14 @@ show_my_outputs(string tx_hash_str,
     // show spending only if sum of mixins is more than
     // what we get + fee, and number of perferctly matched
     // mixis is equal to number of inputs
-    if (sum_mixin_arq > (sum_arq + txd.fee)
+    if (sum_mixin_lak > (sum_lak + txd.fee)
         && no_of_matched_mixins == inputs.size())
     {
         //                  (outcoming    - incoming) - fee
-        possible_spending = (sum_mixin_arq - sum_arq) - txd.fee;
+        possible_spending = (sum_mixin_lak - sum_lak) - txd.fee;
     }
 
-    context["possible_spending"] = xmreg::arq_amount_to_str(
+    context["possible_spending"] = xmreg::lak_amount_to_str(
             possible_spending, "{:0.9f}", false);
 
     add_css_style(context);
@@ -2962,13 +2962,13 @@ show_my_outputs(string tx_hash_str,
 
 string
 show_prove(string tx_hash_str,
-           string arq_address_str,
+           string lak_address_str,
            string tx_prv_key_str,
            string const& raw_tx_data,
            string domain)
 {
 
-    return show_my_outputs(tx_hash_str, arq_address_str,
+    return show_my_outputs(tx_hash_str, lak_address_str,
                            tx_prv_key_str, raw_tx_data,
                            domain, true);
 }
@@ -3074,7 +3074,7 @@ show_checkrawtx(string raw_tx_data, string action)
                 mstch::map tx_cd_data {
                         {"no_of_sources"      , static_cast<uint64_t>(no_of_sources)},
                         {"use_rct"            , tx_cd.use_rct},
-                        {"change_amount"      , xmreg::arq_amount_to_str(tx_change.amount)},
+                        {"change_amount"      , xmreg::lak_amount_to_str(tx_change.amount)},
                         {"has_payment_id"     , (payment_id  != null_hash)},
                         {"has_payment_id8"    , (payment_id8 != null_hash8)},
                         {"payment_id"         , pid_str},
@@ -3091,7 +3091,7 @@ show_checkrawtx(string raw_tx_data, string action)
                     mstch::map dest_info {
                             {"dest_address"  , get_account_address_as_str(
                                     nettype, a_dest.is_subaddress, a_dest.addr)},
-                            {"dest_amount"   , xmreg::arq_amount_to_str(a_dest.amount)}
+                            {"dest_amount"   , xmreg::lak_amount_to_str(a_dest.amount)}
                     };
 
                     dest_infos.push_back(dest_info);
@@ -3108,7 +3108,7 @@ show_checkrawtx(string raw_tx_data, string action)
                     const tx_source_entry&  tx_source = tx_cd.sources.at(i);
 
                     mstch::map single_dest_source {
-                            {"output_amount"              , xmreg::arq_amount_to_str(tx_source.amount)},
+                            {"output_amount"              , xmreg::lak_amount_to_str(tx_source.amount)},
                             {"real_output"                , static_cast<uint64_t>(tx_source.real_output)},
                             {"real_out_tx_key"            , pod_to_hex(tx_source.real_out_tx_key)},
                             {"real_output_in_tx_index"    , static_cast<uint64_t>(tx_source.real_output_in_tx_index)},
@@ -3250,7 +3250,7 @@ show_checkrawtx(string raw_tx_data, string action)
                 } //  for (size_t i = 0; i < no_of_sources; ++i)
 
                 tx_cd_data.insert({"sum_outputs_amounts" ,
-                                   xmreg::arq_amount_to_str(sum_outputs_amounts)});
+                                   xmreg::lak_amount_to_str(sum_outputs_amounts)});
 
 
                 uint64_t min_mix_timestamp;
@@ -3427,7 +3427,7 @@ show_checkrawtx(string raw_tx_data, string action)
 
             mstch::array destination_addresses;
             vector<uint64_t> real_ammounts;
-            uint64_t outputs_arq_sum {0};
+            uint64_t outputs_lak_sum {0};
 
             // destiantion address for this tx
             for (tx_destination_entry& a_dest: ptx.construction_data.splitted_dsts)
@@ -3440,12 +3440,12 @@ show_checkrawtx(string raw_tx_data, string action)
                         mstch::map {
                                 {"dest_address"   , get_account_address_as_str(
                                         nettype, a_dest.is_subaddress, a_dest.addr)},
-                                {"dest_amount"    , xmreg::arq_amount_to_str(a_dest.amount)},
+                                {"dest_amount"    , xmreg::lak_amount_to_str(a_dest.amount)},
                                 {"is_this_change" , false}
                         }
                 );
 
-                outputs_arq_sum += a_dest.amount;
+                outputs_lak_sum += a_dest.amount;
 
                 real_ammounts.push_back(a_dest.amount);
             }
@@ -3458,7 +3458,7 @@ show_checkrawtx(string raw_tx_data, string action)
                                 {"dest_address"   , get_account_address_as_str(
                                         nettype, ptx.construction_data.change_dts.is_subaddress, ptx.construction_data.change_dts.addr)},
                                 {"dest_amount"    ,
-                                        xmreg::arq_amount_to_str(ptx.construction_data.change_dts.amount)},
+                                        xmreg::lak_amount_to_str(ptx.construction_data.change_dts.amount)},
                                 {"is_this_change" , true}
                         }
                 );
@@ -3466,7 +3466,7 @@ show_checkrawtx(string raw_tx_data, string action)
                 real_ammounts.push_back(ptx.construction_data.change_dts.amount);
             };
 
-            tx_context["outputs_arq_sum"] = xmreg::arq_amount_to_str(outputs_arq_sum);
+            tx_context["outputs_lak_sum"] = xmreg::lak_amount_to_str(outputs_lak_sum);
 
             tx_context.insert({"dest_infos", destination_addresses});
 
@@ -3490,7 +3490,7 @@ show_checkrawtx(string raw_tx_data, string action)
                 {
                     if (output_amount == 0)
                     {
-                        out_amount_str = xmreg::arq_amount_to_str(real_ammounts.at(i));
+                        out_amount_str = xmreg::lak_amount_to_str(real_ammounts.at(i));
                     }
                 }
             }
@@ -3500,7 +3500,7 @@ show_checkrawtx(string raw_tx_data, string action)
             vector<uint64_t> real_output_indices;
             vector<uint64_t> real_amounts;
 
-            uint64_t inputs_arq_sum {0};
+            uint64_t inputs_lak_sum {0};
 
             for (const tx_source_entry&  tx_source: ptx.construction_data.sources)
             {
@@ -3549,14 +3549,14 @@ show_checkrawtx(string raw_tx_data, string action)
                 real_output_indices.push_back(tx_source.real_output);
                 real_amounts.push_back(tx_source.amount);
 
-                inputs_arq_sum += tx_source.amount;
+                inputs_lak_sum += tx_source.amount;
             }
 
             // mark that we have signed tx data for use in mstch
             tx_context["have_raw_tx"] = true;
 
             // provide total mount of inputs xmr
-            tx_context["inputs_arq_sum"] = xmreg::arq_amount_to_str(inputs_arq_sum);
+            tx_context["inputs_lak_sum"] = xmreg::lak_amount_to_str(inputs_lak_sum);
 
             // get reference to inputs array created of the tx
             mstch::array& inputs = boost::get<mstch::array>(tx_context["inputs"]);
@@ -3574,7 +3574,7 @@ show_checkrawtx(string raw_tx_data, string action)
                         boost::get<mstch::map>(input_node)["amount"]
                 );
 
-                amount = xmreg::arq_amount_to_str(real_amounts.at(input_idx));
+                amount = xmreg::lak_amount_to_str(real_amounts.at(input_idx));
 
                 // check if key images are spend or not
 
@@ -3964,19 +3964,19 @@ show_checkrawkeyimgs(string raw_data, string viewkey_str)
     }
 
     // get xmr address stored in this key image file
-    const account_public_address* arq_address =
+    const account_public_address* lak_address =
             reinterpret_cast<const account_public_address*>(
                     decoded_raw_data.data());
 
-    address_parse_info address_info {*arq_address, false};
+    address_parse_info address_info {*lak_address, false};
 
 
     context.insert({"address"        , REMOVE_HASH_BRAKETS(
             xmreg::print_address(address_info, nettype))});
     context.insert({"viewkey"        , REMOVE_HASH_BRAKETS(
             fmt::format("{:s}", prv_view_key))});
-    context.insert({"has_total_arq"  , false});
-    context.insert({"total_arq"      , string{}});
+    context.insert({"has_total_lak"  , false});
+    context.insert({"total_lak"      , string{}});
     context.insert({"key_imgs"       , mstch::array{}});
 
 
@@ -4099,17 +4099,17 @@ show_checkcheckrawoutput(string raw_data, string viewkey_str)
     const size_t header_lenght    = 2 * sizeof(crypto::public_key);
 
     // get xmr address stored in this key image file
-    const account_public_address* arq_address =
+    const account_public_address* lak_address =
             reinterpret_cast<const account_public_address*>(
                     decoded_raw_data.data());
 
-    address_parse_info address_info {*arq_address, false, false, crypto::null_hash8};
+    address_parse_info address_info {*lak_address, false, false, crypto::null_hash8};
 
     context.insert({"address"        , REMOVE_HASH_BRAKETS(
             xmreg::print_address(address_info, nettype))});
     context.insert({"viewkey"        , pod_to_hex(prv_view_key)});
-    context.insert({"has_total_arq"  , false});
-    context.insert({"total_arq"      , string{}});
+    context.insert({"has_total_lak"  , false});
+    context.insert({"total_lak"      , string{}});
     context.insert({"output_keys"    , mstch::array{}});
 
     mstch::array& output_keys_ctx = boost::get<mstch::array>(context["output_keys"]);
@@ -4139,7 +4139,7 @@ show_checkcheckrawoutput(string raw_data, string viewkey_str)
         return mstch::render(full_page, context);
     }
 
-    uint64_t total_arq {0};
+    uint64_t total_lak {0};
     uint64_t output_no {0};
 
     context["are_key_images_known"] = false;
@@ -4152,7 +4152,7 @@ show_checkcheckrawoutput(string raw_data, string viewkey_str)
         txout_to_key txout_key = boost::get<txout_to_key>(
                 txp.vout[td.m_internal_output_index].target);
 
-        uint64_t arq_amount = td.amount();
+        uint64_t lak_amount = td.amount();
 
         // if the output is RingCT, i.e., tx version is 2
         // need to decode its amount
@@ -4184,13 +4184,13 @@ show_checkcheckrawoutput(string raw_data, string viewkey_str)
                                        prv_view_key,
                                        td.m_internal_output_index,
                                        tx.rct_signatures.ecdhInfo[td.m_internal_output_index].mask,
-                                       arq_amount);
+                                       lak_amount);
                 r = r || decode_ringct(tx.rct_signatures,
                                        additional_tx_pub_keys[td.m_internal_output_index],
                                        prv_view_key,
                                        td.m_internal_output_index,
                                        tx.rct_signatures.ecdhInfo[td.m_internal_output_index].mask,
-                                       arq_amount);
+                                       lak_amount);
 
                 if (!r)
                 {
@@ -4229,7 +4229,7 @@ show_checkcheckrawoutput(string raw_data, string viewkey_str)
         mstch::map output_info {
                 {"output_no"           , fmt::format("{:03d}", output_no)},
                 {"output_pub_key"      , REMOVE_HASH_BRAKETS(fmt::format("{:s}", txout_key.key))},
-                {"amount"              , xmreg::arq_amount_to_str(arq_amount)},
+                {"amount"              , xmreg::lak_amount_to_str(lak_amount)},
                 {"tx_hash"             , REMOVE_HASH_BRAKETS(fmt::format("{:s}", td.m_txid))},
                 {"timestamp"           , xmreg::timestamp_to_str_gm(blk_timestamp)},
                 {"is_spent"            , is_output_spent},
@@ -4240,16 +4240,16 @@ show_checkcheckrawoutput(string raw_data, string viewkey_str)
 
         if (!is_output_spent)
         {
-            total_arq += arq_amount;
+            total_lak += lak_amount;
         }
 
         output_keys_ctx.push_back(output_info);
     }
 
-    if (total_arq > 0)
+    if (total_lak > 0)
     {
-        context["has_total_arq"] = true;
-        context["total_arq"] = xmreg::arq_amount_to_str(total_arq);
+        context["has_total_lak"] = true;
+        context["total_lak"] = xmreg::lak_amount_to_str(total_lak);
     }
 
     return mstch::render(full_page, context);;
@@ -4380,7 +4380,7 @@ show_address_details(const address_parse_info& address_info, cryptonote::network
     string pub_spendkey_str = fmt::format("{:s}", address_info.address.m_spend_public_key);
 
     mstch::map context {
-            {"arq_address"        , REMOVE_HASH_BRAKETS(address_str)},
+            {"lak_address"        , REMOVE_HASH_BRAKETS(address_str)},
             {"public_viewkey"     , REMOVE_HASH_BRAKETS(pub_viewkey_str)},
             {"public_spendkey"    , REMOVE_HASH_BRAKETS(pub_spendkey_str)},
             {"is_integrated_addr" , false},
@@ -4407,7 +4407,7 @@ show_integrated_address_details(const address_parse_info& address_info,
     string enc_payment_id_str = fmt::format("{:s}", encrypted_payment_id);
 
     mstch::map context {
-            {"arq_address"          , REMOVE_HASH_BRAKETS(address_str)},
+            {"lak_address"          , REMOVE_HASH_BRAKETS(address_str)},
             {"public_viewkey"       , REMOVE_HASH_BRAKETS(pub_viewkey_str)},
             {"public_spendkey"      , REMOVE_HASH_BRAKETS(pub_spendkey_str)},
             {"encrypted_payment_id" , REMOVE_HASH_BRAKETS(enc_payment_id_str)},
@@ -4914,7 +4914,7 @@ json_detailedtransaction(string tx_hash_str)
     tx_context.erase("show_part_of_inputs");
     tx_context.erase("show_more_details_link");
     tx_context.erase("max_no_of_inputs_to_show");
-    tx_context.erase("inputs_arq_sum_not_zero");
+    tx_context.erase("inputs_lak_sum_not_zero");
     tx_context.erase("have_raw_tx");
     tx_context.erase("have_any_unknown_amount");
     tx_context.erase("has_error");
@@ -5958,8 +5958,8 @@ json_emission()
                 = CurrentBlockchainStatus::get_emission();
 
         string emission_blk_no   = std::to_string(current_values.blk_no - 1);
-        string emission_coinbase = arq_amount_to_str(current_values.coinbase, "{:0.9f}");
-        string emission_fee      = arq_amount_to_str(current_values.fee, "{:0.9f}", false);
+        string emission_coinbase = lak_amount_to_str(current_values.coinbase, "{:0.9f}");
+        string emission_fee      = lak_amount_to_str(current_values.fee, "{:0.9f}", false);
 
         j_data = json {
                 {"blk_no"  , current_values.blk_no - 1},
@@ -5992,7 +5992,7 @@ json_version()
             {"last_git_commit_hash", string {GIT_COMMIT_HASH}},
             {"last_git_commit_date", string {GIT_COMMIT_DATETIME}},
             {"git_branch_name"     , string {GIT_BRANCH_NAME}},
-            {"arqma_version_full"  , string {ARQMA_VERSION_FULL}},
+            {"lakran_version_full"  , string {LAKRAN_VERSION_FULL}},
             {"api"                 , ONIONEXPLORER_RPC_VERSION},
             {"blockchain_height"   , core_storage->get_current_blockchain_height()}
     };
@@ -6173,8 +6173,8 @@ get_tx_json(const transaction& tx, const tx_details& txd)
             {"tx_fee"      , txd.fee},
             {"mixin"       , txd.mixin_no},
             {"tx_size"     , txd.size},
-            {"arq_outputs" , txd.arq_outputs},
-            {"arq_inputs"  , txd.arq_inputs},
+            {"lak_outputs" , txd.lak_outputs},
+            {"lak_inputs"  , txd.lak_inputs},
             {"tx_version"  , static_cast<uint64_t>(txd.version)},
             {"rct_type"    , tx.rct_signatures.type},
             {"coinbase"    , is_coinbase(tx)},
@@ -6333,7 +6333,7 @@ construct_tx_context(transaction tx, uint16_t with_ring_signatures = 0)
             {"blk_height"            , tx_blk_height_str},
             {"tx_blk_height"         , tx_blk_height},
             {"tx_size"               , fmt::format("{:0.4f}", tx_size)},
-            {"tx_fee"                , xmreg::arq_amount_to_str(txd.fee, "{:0.9f}", false)},
+            {"tx_fee"                , xmreg::lak_amount_to_str(txd.fee, "{:0.9f}", false)},
             {"payed_for_kB"          , fmt::format("{:0.9f}", payed_for_kB)},
             {"tx_version"            , static_cast<uint64_t>(txd.version)},
             {"blk_timestamp"         , blk_timestamp},
@@ -6382,7 +6382,7 @@ construct_tx_context(transaction tx, uint16_t with_ring_signatures = 0)
 
     uint64_t input_idx {0};
 
-    uint64_t inputs_arq_sum {0};
+    uint64_t inputs_lak_sum {0};
 
     // ringct inputs can be mixture of known amounts (when old outputs)
     // are spent, and unknown umounts (makrked in explorer by '?') when
@@ -6458,7 +6458,7 @@ construct_tx_context(transaction tx, uint16_t with_ring_signatures = 0)
 
         inputs.push_back(mstch::map {
                 {"in_key_img"   , pod_to_hex(in_key.k_image)},
-                {"amount"       , xmreg::arq_amount_to_str(in_key.amount)},
+                {"amount"       , xmreg::lak_amount_to_str(in_key.amount)},
                 {"input_idx"    , fmt::format("{:02d}", input_idx)},
                 {"mixins"       , mstch::array{}},
                 {"ring_sigs"    , mstch::array{}},
@@ -6472,7 +6472,7 @@ construct_tx_context(transaction tx, uint16_t with_ring_signatures = 0)
         }
 
 
-        inputs_arq_sum += in_key.amount;
+        inputs_lak_sum += in_key.amount;
 
         if (in_key.amount == 0)
         {
@@ -6623,8 +6623,8 @@ construct_tx_context(transaction tx, uint16_t with_ring_signatures = 0)
 
 
     context["have_any_unknown_amount"]  = have_any_unknown_amount;
-    context["inputs_arq_sum_not_zero"]  = (inputs_arq_sum > 0);
-    context["inputs_arq_sum"]           = xmreg::arq_amount_to_str(inputs_arq_sum);
+    context["inputs_lak_sum_not_zero"]  = (inputs_lak_sum > 0);
+    context["inputs_lak_sum"]           = xmreg::lak_amount_to_str(inputs_lak_sum);
     context["server_time"]              = server_time_str;
     context["enable_mixins_details"]    = detailed_view;
     context["enable_as_hex"]            = enable_as_hex;
@@ -6662,7 +6662,7 @@ construct_tx_context(transaction tx, uint16_t with_ring_signatures = 0)
 
     mstch::array outputs;
 
-    uint64_t outputs_arq_sum {0};
+    uint64_t outputs_lak_sum {0};
 
     for (pair<txout_to_key, uint64_t>& outp: txd.output_pub_keys)
     {
@@ -6681,11 +6681,11 @@ construct_tx_context(transaction tx, uint16_t with_ring_signatures = 0)
                     = std::to_string(out_amount_indices.at(output_idx));
         }
 
-        outputs_arq_sum += outp.second;
+        outputs_lak_sum += outp.second;
 
         outputs.push_back(mstch::map {
                 {"out_pub_key"           , pod_to_hex(outp.first.key)},
-                {"amount"                , xmreg::arq_amount_to_str(outp.second)},
+                {"amount"                , xmreg::lak_amount_to_str(outp.second)},
                 {"amount_idx"            , out_amount_index_str},
                 {"num_outputs"           , num_outputs_amount},
                 {"unformated_output_idx" , output_idx},
@@ -6694,7 +6694,7 @@ construct_tx_context(transaction tx, uint16_t with_ring_signatures = 0)
 
     } //  for (pair<txout_to_key, uint64_t>& outp: txd.output_pub_keys)
 
-    context["outputs_arq_sum"] = xmreg::arq_amount_to_str(outputs_arq_sum);
+    context["outputs_lak_sum"] = xmreg::lak_amount_to_str(outputs_lak_sum);
 
     context.emplace("outputs", outputs);
 
@@ -6781,8 +6781,8 @@ get_tx_details(const transaction& tx,
     const array<uint64_t, 4>& sum_data = summary_of_in_out_rct(
             tx, txd.output_pub_keys, txd.input_key_imgs);
 
-    txd.arq_outputs       = sum_data[0];
-    txd.arq_inputs        = sum_data[1];
+    txd.lak_outputs       = sum_data[0];
+    txd.lak_inputs        = sum_data[1];
     txd.mixin_no          = sum_data[2];
     txd.num_nonrct_inputs = sum_data[3];
 
@@ -7082,7 +7082,7 @@ get_footer()
             {"last_git_commit_hash", string {GIT_COMMIT_HASH}},
             {"last_git_commit_date", string {GIT_COMMIT_DATETIME}},
             {"git_branch_name"     , string {GIT_BRANCH_NAME}},
-            {"arqma_version_full"  , string {ARQMA_VERSION_FULL}},
+            {"lakran_version_full"  , string {LAKRAN_VERSION_FULL}},
             {"api"                 , std::to_string(ONIONEXPLORER_RPC_VERSION_MAJOR)
                                      + "."
                                      + std::to_string(ONIONEXPLORER_RPC_VERSION_MINOR)},

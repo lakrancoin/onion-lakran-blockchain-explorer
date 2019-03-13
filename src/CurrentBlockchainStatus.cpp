@@ -297,7 +297,7 @@ CurrentBlockchainStatus::is_thread_running()
    return is_running;
 }
 
-bf::path CurrentBlockchainStatus::blockchain_path {"/home/arqma/.arqma/lmdb"};
+bf::path CurrentBlockchainStatus::blockchain_path {"/home/lakran/.lakran/lmdb"};
 
 cryptonote::network_type CurrentBlockchainStatus::nettype {cryptonote::network_type::MAINNET};
 
