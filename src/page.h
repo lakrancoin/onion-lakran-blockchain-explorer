@@ -6321,7 +6321,7 @@ construct_tx_context(transaction tx, uint16_t with_ring_signatures = 0)
 
     double tx_size = static_cast<double>(txd.size) / 1024.0;
 
-    double payed_for_kB = ARQ_AMOUNT(txd.fee) / tx_size;
+    double payed_for_kB = LAK_AMOUNT(txd.fee) / tx_size;
 
     // initalise page tempate map with basic info about blockchain
     mstch::map context {
