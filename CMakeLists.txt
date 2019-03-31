@@ -1,7 +1,7 @@
-cmake_minimum_required(VERSION 3.5.0)
+cmake_minimum_required(VERSION 2.8)
 
 set(PROJECT_NAME
-        lakblocks)
+        xmrblocks)
 
 
 project(${PROJECT_NAME})
@@ -15,30 +15,30 @@ if (WIN32)
 endif()
 
 
-if (NOT LAKRAN_DIR)
-    set(LAKRAN_DIR ~/lakran)
+if (NOT MONERO_DIR)
+    set(MONERO_DIR ~/lakran)
 endif()
 
-message(STATUS LAKRAN_DIR ": ${LAKRAN_DIR}")
+message(STATUS MONERO_DIR ": ${MONERO_DIR}")
 
-set(LAKRAN_SOURCE_DIR ${LAKRAN_DIR}
-        CACHE PATH "Path to the root directory for Lakran")
+set(MONERO_SOURCE_DIR ${MONERO_DIR}
+        CACHE PATH "Path to the root directory for Monero")
 
-# set location of Lakran build tree
-set(LAKRAN_BUILD_DIR ${LAKRAN_SOURCE_DIR}/build/Linux/release-v0.2.2/release
-        CACHE PATH "Path to the build directory for Lakran")
+# set location of monero build tree
+set(MONERO_BUILD_DIR ${MONERO_SOURCE_DIR}/build/release/
+        CACHE PATH "Path to the build directory for Monero")
 
 set(MY_CMAKE_DIR "${CMAKE_CURRENT_LIST_DIR}/cmake"
         CACHE PATH "The path to the cmake directory of the current project")
 
 list(APPEND CMAKE_MODULE_PATH "${MY_CMAKE_DIR}")
 
-set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "${LAKRAN_BUILD_DIR}"
-        CACHE PATH "Add Lakran directory for library searching")
+set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "${MONERO_BUILD_DIR}"
+        CACHE PATH "Add Monero directory for library searching")
 
 include(MyUtils)
 
-find_package(Lakran)
+find_package(Monero)
 
 # find boost
 find_package(Boost COMPONENTS
@@ -64,17 +64,12 @@ endif()
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" OR WIN32)
     add_library(unbound STATIC IMPORTED)
-    set_property(TARGET unbound PROPERTY IMPORTED_LOCATION ${LAKRAN_BUILD_DIR}/external/unbound/libunbound.a)
+    set_property(TARGET unbound PROPERTY IMPORTED_LOCATION ${MONERO_BUILD_DIR}/external/unbound/libunbound.a)
 endif()
 
 # include boost headers
 include_directories(${Boost_INCLUDE_DIRS})
-
-# include lakran
-include_directories(${LAKRAN_SOURCE_DIR}/build/Linux/release-v0.2.2/release)
-
 include_directories("ext/mstch/include")
-include_directories("ext/mstch/include/src")
 include_directories("ext/crow")
 
 # add ext/ subfolder
@@ -113,6 +108,7 @@ set(LIBRARIES
         multisig
         daemonizer
         cncrypto
+        blocks
         lmdb
         ringct
         ringct_basic
@@ -123,7 +119,7 @@ set(LIBRARIES
         checkpoints
         version
         epee
-        sodium
+        pcsclite
         ${Boost_LIBRARIES}
         pthread
         unbound
@@ -132,7 +128,7 @@ set(LIBRARIES
         ssl)
 
 if(APPLE)
-    set(LIBRARIES ${LIBRARIES} "-framework IOKit -framework Foundation")
+    set(LIBRARIES ${LIBRARIES} "-framework IOKit -framework PCSC")
 else()
     set(LIBRARIES ${LIBRARIES} atomic)
 endif()
@@ -151,8 +147,5 @@ if (WIN32)
 else()
     set(LIBRARIES ${LIBRARIES} dl)
 endif()
-
-find_package(HIDAPI)
-set(LIBRARIES ${LIBRARIES} ${HIDAPI_LIBRARIES})
 
 target_link_libraries(${PROJECT_NAME} ${LIBRARIES})

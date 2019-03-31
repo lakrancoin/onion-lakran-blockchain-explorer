@@ -6,7 +6,7 @@
 #ifndef CROWXMR_RPCCALLS_H
 #define CROWXMR_RPCCALLS_H
 
-#include "lakran_headers.h"
+#include "monero_headers.h"
 
 #include <mutex>
 #include <utility>
@@ -81,7 +81,7 @@ class rpccalls
 
 public:
 
-    rpccalls(string _deamon_url = "http://127.0.0.1:14081",
+    rpccalls(string _deamon_url = "http:://127.0.0.1:18081",
              uint64_t _timeout = 200000);
 
     bool

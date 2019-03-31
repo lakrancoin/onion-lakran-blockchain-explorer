@@ -2,8 +2,8 @@
 // Created by mwo on 28/05/17.
 //
 
-#ifndef LAKBLOCKS_MEMPOOLSTATUS_H
-#define LAKBLOCKS_MEMPOOLSTATUS_H
+#ifndef XMRBLOCKS_MEMPOOLSTATUS_H
+#define XMRBLOCKS_MEMPOOLSTATUS_H
 
 
 #include "MicroCore.h"
@@ -39,8 +39,8 @@ struct MempoolStatus
 
         string fee_str;
         string payed_for_kB_str;
-        string lak_inputs_str;
-        string lak_outputs_str;
+        string xmr_inputs_str;
+        string xmr_outputs_str;
         string timestamp_str;
         string txsize;
 
@@ -161,4 +161,4 @@ struct MempoolStatus
 };
 
 }
-#endif //LAKBLOCKS_MEMPOOLSTATUS_H
+#endif //XMRBLOCKS_MEMPOOLSTATUS_H
