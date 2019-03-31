@@ -119,7 +119,7 @@ Example output:
 (2016-05-28 02:04:49) [INFO    ] Crow/0.1 server is running, local port 8081
 ```
 
-Go to your browser: http://127.0.0.1:8081
+Go to your browser: http://127.0.0.1:8088
 
 ## The explorer's command line options
 
