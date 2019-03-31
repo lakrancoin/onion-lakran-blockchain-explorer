@@ -58,6 +58,9 @@ sudo apt update
 sudo apt install git build-essential cmake libboost-all-dev miniupnpc libunbound-dev graphviz doxygen libunwind8-dev pkg-config libssl-dev libcurl4-openssl-dev libgtest-dev libreadline-dev libzmq3-dev libsodium-dev libpcsclite-dev
 
 # go to home folder
+
+#scl enable devtoolset-6 bash
+
 cd ~
 
 git clone --recursive https://github.com/lakrancoin/lakran
