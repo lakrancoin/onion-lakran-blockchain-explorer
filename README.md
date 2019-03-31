@@ -1,6 +1,6 @@
-# Onion Monero Blockchain Explorer
+# Onion Lakran Blockchain Explorer
 
-Currently available Monero blockchain explorers have several limitations which are of
+Currently available Lakran blockchain explorers have several limitations which are of
 special importance to privacy-oriented users:
 
  - they use JavaScript,
@@ -8,59 +8,22 @@ special importance to privacy-oriented users:
  - track users activates through google analytics,
  - are closed sourced,
  - are not available as hidden services,
- - do not support Monero testnet nor stagenet networks,
+ - do not support Lakran testnet nor stagenet networks,
  - have limited JSON API.
 
 
 In this example, these limitations are addressed by development of
-an Onion Monero Blockchain Explorer. The example not only shows how to use
-Monero C++ libraries, but also demonstrates how to use:
+an Onion Lakran Blockchain Explorer. The example not only shows how to use
+Lakran C++ libraries, but also demonstrates how to use:
 
  - [crow](https://github.com/ipkn/crow) - C++ micro web framework
  - [mstch](https://github.com/no1msd/mstch) - C++ {{mustache}} templates
  - [json](https://github.com/nlohmann/json) - JSON for Modern C++
  - [fmt](https://github.com/fmtlib/fmt) - Small, safe and fast string formatting library
 
-## Addresses
+## Onion Lakran Blockchain Explorer features
 
-Tor users:
-
- - [http://dvwae436pd7nt4bc.onion](http://dvwae436pd7nt4bc.onion) (Front-end templates are [maintained by @suhz](https://github.com/suhz/onion-monero-blockchain-explorer/tree/moneroexplorer.com/src/templates)).
-
-Clearnet versions:
- - [https://labor.serveo.net/](https://labor.serveo.net/) - temprorary link (slow), bleading edge version.
- - [https://xmrchain.net/](https://xmrchain.net/) - https enabled, most popular and very stable.
- - [https://MoneroExplorer.com/](https://moneroexplorer.com/) - nice looking one, https enabled.
- - [https://monerohash.com/explorer/](https://monerohash.com/explorer/) - nice looking one, https enabled.
- - [http://explore.MoneroWorld.com](http://explore.moneroworld.com) - same as the second one.
- - [https://moneroexplorer.pro/](https://moneroexplorer.pro/) - nice looking one, https enabled.
- - [http://monerochain.com/](http://monerochain.com/) - JSON API based, multiple nodes.   
- - [https://blox.minexmr.com/](https://blox.minexmr.com/) - - https enabled.
-
-Testnet version:
-
- - [http://nimis.serveo.net/](http://nimis.serveo.net/) - bleeding edge version (down currently).
- - [https://testnet.xmrchain.com/](https://testnet.xmrchain.com/) - https enabled.
- - [https://explorer.monero-otc.com/](https://explorer.monero-otc.com/) - https enabled.
-
-Stagenet version:
-
- - [http://162.210.173.150:8083/](http://162.210.173.150:8083/) - recent version.
-
-i2p users (main Monero network):
-
- - [http://7o4gezpkye6ekibhgpkg7v626ze4idsirapufzrefkdysa6zxhha.b32.i2p/](http://7o4gezpkye6ekibhgpkg7v626ze4idsirapufzrefkdysa6zxhha.b32.i2p/)
-
-Alternative block explorers:
-
-- [http://moneroblocks.info](http://moneroblocks.info/)
-- [https://monerobase.com](https://monerobase.com/)
-- [http://chainradar.com](http://chainradar.com/xmr/blocks)
-
-
-## Onion Monero Blockchain Explorer features
-
-The key features of the Onion Monero Blockchain Explorer are:
+The key features of the Onion Lakran Blockchain Explorer are:
 
  - no cookies, no web analytics trackers, no images,
  - by default no JavaScript, but can be enabled for client side decoding and proving transactions,
@@ -69,12 +32,12 @@ The key features of the Onion Monero Blockchain Explorer are:
  - showing encrypted payments ID,
  - showing ring signatures,
  - showing transaction extra field,
- - showing public components of Monero addresses,
- - decoding which outputs and mixins belong to the given Monero address and viewkey,
- - can prove that you send Monero to someone,
+ - showing public components of Lakran addresses,
+ - decoding which outputs and mixins belong to the given Lakran address and viewkey,
+ - can prove that you send Lakran to someone,
  - detailed information about mixins, such as, mixins' age, timescale, mixin of mixins,
  - showing number of amount output indices,
- - support Monero testnet network,
+ - support Lakran testnet network,
  - tx checker and pusher for online pushing of transactions,
  - estimate possible spendings based on address and viewkey,
  - can provide total amount of all miner fees.
@@ -82,22 +45,14 @@ The key features of the Onion Monero Blockchain Explorer are:
  - decoding outputs and proving txs sent to sub-address.
 
 
-## Development branch
-
-Current development branch:
-
- - https://github.com/moneroexamples/onion-lakran-blockchain-explorer/tree/devel
-
-
-
 ## Compilation on Ubuntu 16.04
 
-##### Compile latest Monero development version
+##### Compile latest Lakran development version
 
-Download and compile recent Monero into your home folder:
+Download and compile recent Lakran into your home folder:
 
 ```bash
-# first install monero dependecines
+# first install Lakran dependecines
 sudo apt update
 
 sudo apt install git build-essential cmake libboost-all-dev miniupnpc libunbound-dev graphviz doxygen libunwind8-dev pkg-config libssl-dev libcurl4-openssl-dev libgtest-dev libreadline-dev libzmq3-dev libsodium-dev libpcsclite-dev
@@ -105,27 +60,25 @@ sudo apt install git build-essential cmake libboost-all-dev miniupnpc libunbound
 # go to home folder
 cd ~
 
-git clone --recursive https://github.com/monero-project/monero
+git clone --recursive https://github.com/lakrancoin/lakran
 
-cd monero/
+cd lakran/
 
-# checkout last monero version
-git checkout -b last_release v0.12.0.0
 
 make
 ```
 
 ##### Compile and run the explorer
 
-Once the Monero is compiles, the explorer can be downloaded and compiled
+Once the Lakran is compiles, the explorer can be downloaded and compiled
 as follows:
 
 ```bash
-# go to home folder if still in ~/monero
+# go to home folder if still in ~/lakran
 cd ~
 
 # download the source code
-git clone https://github.com/moneroexamples/onion-lakran-blockchain-explorer.git
+git clone https://github.com/lakrancoin/onion-lakran-blockchain-explorer.git
 
 # enter the downloaded sourced code folder
 cd onion-lakran-blockchain-explorer
@@ -137,7 +90,7 @@ mkdir build && cd build
 cmake ..
 
 # altearnatively can use: cmake -DMONERO_DIR=/path/to/monero_folder ..
-# if monero is not in ~/monero
+# if lakran is not in ~/lakran
 #
 # also can build with ASAN (sanitizers), for example
 # cmake -DSANITIZE_ADDRESS=On ..
@@ -156,7 +109,7 @@ To run it:
 ./xmrblocks
 ```
 
-By default it will look for blockchain in its default location i.e., `~/.bitmonero/lmdb`.
+By default it will look for blockchain in its default location i.e., `~/.lakran/lmdb`.
 You can use `--bc-path` option if its in different location.
 Example output:
 
@@ -171,7 +124,7 @@ Go to your browser: http://127.0.0.1:8081
 ## The explorer's command line options
 
 ```
-xmrblocks, Onion Monero Blockchain Explorer:
+xmrblocks, Onion Lakran Blockchain Explorer:
   -h [ --help ] [=arg(=1)] (=0)         produce help message
   -t [ --testnet ] [=arg(=1)] (=0)      use testnet blockchain
   -s [ --stagenet ] [=arg(=1)] (=0)     use stagenet blockchain
@@ -227,7 +180,7 @@ Example usage, defined as bash aliases.
 
 ```bash
 # for mainnet explorer
-alias xmrblocksmainnet='~/onion-lakran-blockchain-explorer/build/xmrblocks    --port 8081 --testnet-url "http://139.162.32.245:8082" --enable-pusher --enable-emission-monitor'
+alias xmrblocksmainnet='~/onion-lakran-blockchain-explorer/build/xmrblocks    --port 8088 --testnet-url "http://139.162.32.245:8082" --enable-pusher --enable-emission-monitor'
 
 # for testnet explorer
 alias xmrblockstestnet='~/onion-lakran-blockchain-explorer/build/xmrblocks -t --port 8082 --mainnet-url "http://139.162.32.245:8081" --enable-pusher --enable-emission-monitor'
@@ -235,9 +188,9 @@ alias xmrblockstestnet='~/onion-lakran-blockchain-explorer/build/xmrblocks -t --
 
 These are aliases similar to those used for http://139.162.32.245:8081/ and http://139.162.32.245:8082/, respectively.
 
-## Enable Monero emission
+## Enable lakran emission
 
-Obtaining current Monero emission amount is not straight forward. Thus, by default it is
+Obtaining current lakran emission amount is not straight forward. Thus, by default it is
 disabled. To enable it use `--enable-emission-monitor` flag, e.g.,
 
 
@@ -249,10 +202,10 @@ This flag will enable emission monitoring thread. When started, the thread
  will initially scan the entire blockchain, and calculate the cumulative emission based on each block.
 Since it is a separate thread, the explorer will work as usual during this time.
 Every 10000 blocks, the thread will save current emission in a file, by default,
- in `~/.bitmonero/lmdb/emission_amount.txt`. For testnet or stagenet networks,
- it is `~/.bitmonero/testnet/lmdb/emission_amount.txt` or `~/.bitmonero/stagenet/lmdb/emission_amount.txt`. This file is used so that we don't
+ in `~/.lakran/lmdb/emission_amount.txt`. For testnet or stagenet networks,
+ it is `~/.lakran/testnet/lmdb/emission_amount.txt` or `~/.lakran/stagenet/lmdb/emission_amount.txt`. This file is used so that we don't
  need to rescan entire blockchain whenever the explorer is restarted. When the
- explorer restarts, the thread will first check if `~/.bitmonero/lmdb/emission_amount.txt`
+ explorer restarts, the thread will first check if `~/.lakran/lmdb/emission_amount.txt`
  is present, read its values, and continue from there if possible. Subsequently, only the initial
  use of the tread is time consuming. Once the thread scans the entire blockchain, it updates
  the emission amount using new blocks as they come. Since the explorer writes this file, there can
