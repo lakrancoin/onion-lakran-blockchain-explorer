@@ -116,7 +116,7 @@ Example output:
 ```bash
 [mwo@arch onion-lakran-blockchain-explorer]$ ./xmrblocks
 2016-May-28 10:04:49.160280 Blockchain initialized. last block: 1056761, d0.h0.m12.s47 time ago, current difficulty: 1517857750
-(2016-05-28 02:04:49) [INFO    ] Crow/0.1 server is running, local port 8081
+(2016-05-28 02:04:49) [INFO    ] Crow/0.1 server is running, local port 8088
 ```
 
 Go to your browser: http://127.0.0.1:8088

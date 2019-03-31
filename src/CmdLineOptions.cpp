@@ -49,7 +49,7 @@ namespace xmreg
                  "enable users to have the index page on autorefresh")
                 ("enable-emission-monitor", value<bool>()->default_value(false)->implicit_value(true),
                  "enable Lakran total emission monitoring thread")
-                ("port,p", value<string>()->default_value("8081"),
+                ("port,p", value<string>()->default_value("8088"),
                  "default explorer port")
                 ("testnet-url", value<string>()->default_value(""),
                  "you can specify testnet url, if you run it on mainnet or stagenet. link will show on front page to testnet explorer")
